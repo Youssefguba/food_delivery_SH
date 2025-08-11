@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/widgets/cart_item_widget.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Provider.of<CartController>(context, listen: false);
+    // final cartController = CartController();
+
+    if (cartController.cartItems.isEmpty) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset('assets/lottie/empty.json', height: 200, width: 200),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'There is no Item in Cart, Please Discover and return here after add items',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -13,9 +35,10 @@ class CartScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.5,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: cartController.cartItems.length,
               itemBuilder: (context, index) {
-                return CartItemWidget();
+                final cartItem = cartController.cartItems[index];
+                return CartItemWidget(cartItem: cartItem);
               },
             ),
           ),

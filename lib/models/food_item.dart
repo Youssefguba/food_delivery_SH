@@ -1,10 +1,12 @@
 class FoodItem {
+  final int id;
   final String image;
   final String title;
   final String subtitle;
   bool isAddedToCart;
 
   FoodItem({
+    required this.id,
     required this.image,
     required this.title,
     required this.subtitle,
@@ -14,6 +16,7 @@ class FoodItem {
   static final List<FoodItem> foodItems = [
     for (int i = 0; i < 100; i++)
       FoodItem(
+        id: i,
         image: 'assets/images/image_1.avif',
         title: _getFoodTitle(i),
         subtitle: _getFoodDescription(i),

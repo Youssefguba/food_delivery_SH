@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/controller/cart_controller.dart';
+import 'package:food_delivery/controllers/cart_controller.dart';
+import 'package:food_delivery/models/cart_model.dart';
 import 'package:provider/provider.dart';
 
 import '../models/food_item.dart';
@@ -12,8 +13,6 @@ class ProductsListWidget extends StatefulWidget {
 }
 
 class _ProductsListWidgetState extends State<ProductsListWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return _buildProducts();
@@ -43,11 +42,32 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
       ),
       trailing: GestureDetector(
         onTap: () {
+          // Clean Code Principles:
+          // 1. Start with Positive
+          final cartItem = CartModel(
+            id: item.id,
+            quantity: 1,
+            title: item.title,
+            desc: item.subtitle,
+            image: item.image,
+          );
+
+          if (item.isAddedToCart) {
+            // remove
+            Provider.of<CartController>(
+              context,
+              listen: false,
+            ).removeItemFromCart(cartItem);
+          } else {
+            Provider.of<CartController>(
+              context,
+              listen: false,
+            ).addItemToCart(cartItem);
+          }
+
           setState(() {
             item.isAddedToCart = !item.isAddedToCart;
           });
-
-          Provider.of(context);
         },
         child: _buildListButton(
           text: item.isAddedToCart ? 'Remove from Cart' : 'Add to Cart',
@@ -59,7 +79,6 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
       subtitle: Text(item.subtitle),
     );
   }
-
 
   Widget _buildListButton({
     required String text,
