@@ -3,6 +3,7 @@ class FoodItem {
   final String image;
   final String title;
   final String subtitle;
+  final double price;
   bool isAddedToCart;
 
   FoodItem({
@@ -11,6 +12,7 @@ class FoodItem {
     required this.title,
     required this.subtitle,
     required this.isAddedToCart,
+    required this.price,
   });
 
   static final List<FoodItem> foodItems = [
@@ -21,6 +23,7 @@ class FoodItem {
         title: _getFoodTitle(i),
         subtitle: _getFoodDescription(i),
         isAddedToCart: false,
+        price: (10 + (i % 5)) * 1.5,
       ),
   ];
 

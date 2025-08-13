@@ -50,6 +50,7 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
             title: item.title,
             desc: item.subtitle,
             image: item.image,
+            price: item.price,
           );
 
           if (item.isAddedToCart) {
